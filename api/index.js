@@ -8,11 +8,31 @@ import cors from "cors";
 
 const app = express();
 
-const corsConfig = {
-    credentials: true,
-    origin: true,
-};
-app.use(cors(corsConfig));
+if (process.env.NODE_ENV === 'production') {
+    app.use((req, res, next) => {
+        if (req.header('x-forwarded-proto') !== 'https')
+            res.redirect(`https://${req.header('host')}${req.url}`)
+        else next()
+    })
+}
+
+const allowedMethods = ['GET', 'HEAD', 'POST', 'PUT', 'DELETE']
+
+app.use((req, res, next) => {
+    if (!allowedMethods.includes(req.method)) return res.end(405, 'Method Not Allowed')
+    return next()
+})
+
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Credentials", true);
+    next();
+});
+
+app.use(
+    cors({
+        origin: "http://localhost:3000",
+    })
+);
 
 app.use(express.json());
 app.use(cookieParser());
