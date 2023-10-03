@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useEffect, useRef, useState } from "react";
+import GoogleLogin from "react-google-login";
 
 const Login = () => {
     const ReCAPTCHARef = useRef();
@@ -41,11 +42,28 @@ const Login = () => {
         ReCAPTCHARef.current.reset();
     }, []);
 
+    const onFailure = (e) => {
+        console.log(e);
+    };
+    const onSuccess = (e) => {
+        console.log("onSuccess");
+        console.log(e);
+    };
+
 
     return (
         <div className="auth">
             <h1>Login</h1>
             <form>
+                <GoogleLogin
+                    clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                    buttonText="Login"
+                    onSuccess={onSuccess}
+                    onFailure={onFailure}
+                    cookiePolicy={'single_host_origin'}
+                    scope={'profile email'}
+                    isSignedIn={true}
+                />
                 <input
                     required
                     type="text"
