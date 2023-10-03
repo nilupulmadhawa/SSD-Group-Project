@@ -64,6 +64,7 @@ const Login = () => {
                     scope={'profile email'}
                     isSignedIn={true}
                 />
+                <p><h3>or</h3></p>
                 <input
                     required
                     type="text"
