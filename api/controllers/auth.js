@@ -60,8 +60,11 @@ export const login = async (req, res) => {
                 .status(200)
                 .json(other);
         });
-    };
+    } catch (error) {
+        return res.json("Something went wrong!");
+    }
+};
 
-    export const logout = (req, res) => {
-        res.clearCookie("access_token").status(200).json("User has been logged out.")
-    };
+export const logout = (req, res) => {
+    res.clearCookie("access_token").status(200).json("User has been logged out.")
+};

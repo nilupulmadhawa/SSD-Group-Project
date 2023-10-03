@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === 'production') {
     })
 }
 
-const allowedMethods = ['GET', 'HEAD', 'POST', 'PUT', 'DELETE']
+const allowedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 
 app.use((req, res, next) => {
     if (!allowedMethods.includes(req.method)) return res.end(405, 'Method Not Allowed')
@@ -30,6 +30,7 @@ app.use((req, res, next) => {
 
 app.use(
     cors({
+        credentials: true,
         origin: "http://localhost:3000",
     })
 );
